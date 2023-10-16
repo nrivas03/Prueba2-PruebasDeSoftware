@@ -1,9 +1,9 @@
-import usersLogic from '../../business-logic/users';
+import UsersLogic from '../../business-logic/users';
 import { returnErrorResponse } from '../../errors/error-response';
 
-async function list(req, res) {
+async function list(_req, res) {
   try {
-    const users = await usersLogic.list();
+    const users = await UsersLogic.list();
 
     return res.status(200).send({ users });
   } catch (error) {

@@ -1,7 +1,11 @@
-import clubModel from '../../models/club/club.model';
+import ClubModel from '../../models/club/club.model';
 
+/**
+ * List all clubs with admin an manager.userId populated
+ * @returns {Club[]} List of clubs
+ */
 async function list() {
-  const clubs = await clubModel.find({}).populate('admin managers.userId');
+  const clubs = await ClubModel.find({}).populate('admin managers.userId');
   return clubs;
 }
 

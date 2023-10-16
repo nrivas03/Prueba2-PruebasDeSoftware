@@ -27,6 +27,7 @@ const managerSchema = new Schema(
  * - name (string): Name of the club
  * - description (string): A club description
  * - managers (managerSchema[]): List of managers
+ * - admin (string): Admin user id (created by)
  * - createdAt (ISODate): Date when the club data is created
  * - updatedAt (ISODate): Last date when the club data is updated
  */

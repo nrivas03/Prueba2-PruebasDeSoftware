@@ -1,6 +1,6 @@
 import { model } from 'mongoose';
 import memberSchema from './member.schema';
 
-const memberModel = model('Member', memberSchema);
+const MemberModel = model('Member', memberSchema);
 
-export default memberModel;
+export default MemberModel;

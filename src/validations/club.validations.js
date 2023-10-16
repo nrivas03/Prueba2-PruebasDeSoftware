@@ -1,8 +1,8 @@
 import Joi from 'joi';
 import clubErrors from '../errors/club.errors';
-import { requiredString } from './schema-common-types';
-import { HTTPError } from '../errors/error-response';
+import { optionalString, requiredString } from './schema-common-types';
 import envs from '../configs/environment';
+import HTTPError from '../errors/http.error';
 
 const { validationStatusCode } = envs;
 const validationErrorName = clubErrors.validation.name;
@@ -17,10 +17,17 @@ const createValidation = Joi.object()
         code: validationStatusCode,
       }),
     ),
-    description: requiredString(
+    description: optionalString(
       new HTTPError({
         name: validationErrorName,
         message: clubErrors.validation.messages.description,
+        code: validationStatusCode,
+      }),
+    ),
+    adminId: requiredString(
+      new HTTPError({
+        name: validationErrorName,
+        message: clubErrors.validation.messages.adminId,
         code: validationStatusCode,
       }),
     ),

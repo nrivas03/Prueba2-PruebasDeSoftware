@@ -1,22 +1,23 @@
-import clubErrors from '../../errors/club.errors';
-import { HTTPError } from '../../errors/error-response';
-import clubModel from '../../models/club/club.model';
-import userModel from '../../models/user/user.model';
+import ClubModel from '../../models/club/club.model';
+import UserLogic from '../users';
 
-async function checkClubAdmin(clubAdminId) {
-  const clubAdmin = await userModel.findById(clubAdminId);
-
-  if (!clubAdmin) {
-    throw new HTTPError({ ...clubErrors.adminNotFound, code: 404 });
-  }
-}
-
+/**
+ * Create club
+ * @param {object} args - Required arguments
+ * @param {string} args.name - Club name
+ * @param {string} args.adminId - Club's admin
+ * @param {string} [args.description] - Club description
+ * @returns {Club} Created club
+ */
 async function create(args) {
-  const { clubAdminId, name, description } = args;
+  const { name, description, adminId } = args;
 
-  await checkClubAdmin(clubAdminId);
+  const { _id: userId } = await UserLogic.getOne({
+    query: { _id: adminId },
+    select: ['_id'],
+  });
 
-  const club = await clubModel.create({ name, description, admin: clubAdminId });
+  const club = await ClubModel.create({ name, description, admin: userId });
   return club;
 }
 

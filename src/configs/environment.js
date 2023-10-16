@@ -1,6 +1,6 @@
 import { config } from 'dotenv';
 
-config();
+config({ path: process.env.NODE_ENV === 'test' ? './.test.env' : './.env' });
 
 const envs = {
   mongo: {
@@ -13,9 +13,14 @@ const envs = {
       email: process.env.CREATE_ADMIN_EMAIL,
       password: process.env.CREATE_ADMIN_PASSWORD,
       name: process.env.CREATE_ADMIN_NAME,
+      isAdmin: true,
     },
   },
   validationStatusCode: 400,
+  JWT: {
+    SECRET: process.env.JWT_SECRET || '123asd',
+    DEFAULT_EXPIRES: process.env.JWT_EXPIRES || '15m',
+  },
 };
 
 export default envs;
