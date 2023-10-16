@@ -29,6 +29,8 @@ async function login({ email, password }) {
     select: ['password', 'isAdmin'],
   });
 
+  console.log(user);
+
   await comparePassword({ user, candidatePassword: password });
 
   const token = await generateToken({

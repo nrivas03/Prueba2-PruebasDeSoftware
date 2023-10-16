@@ -33,5 +33,4 @@ const createValidation = Joi.object()
     ),
   });
 
-// eslint-disable-next-line import/prefer-default-export
 export { createValidation };

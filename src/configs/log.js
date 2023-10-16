@@ -26,12 +26,12 @@ const logger = createLogger({
       level: 'info',
       format: combine(infoFilter(), timestamp(), json()),
     }),
-    new transports.Console({
-      name: 'console',
-      colorize: true,
-      showLevel: true,
-      formatter: combine(infoFilter(), timestamp(), json()),
-    }),
+    // new transports.Console({
+    //   name: 'console',
+    //   colorize: true,
+    //   showLevel: true,
+    //   formatter: combine(infoFilter(), timestamp(), json()),
+    // }),
   ],
 });
 
