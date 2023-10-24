@@ -21,8 +21,8 @@ describe('Business logic: List users', () => {
   });
 
   it('Should return a list of users', async () => {
-    const usersLength = 500;
-    const users = userFactory.build({ isAdmin: true });
+    const usersLength = 5;
+    const users = userFactory.buildList(usersLength, { isAdmin: true });
     UserModel.find.mockReturnValue(users);
 
     const result = await list();
