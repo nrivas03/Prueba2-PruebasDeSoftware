@@ -11,4 +11,7 @@ router.post('/', authMiddleware, ClubController.create);
 router.post('/:clubId/members', authMiddleware, ClubController.addMember);
 router.get('/:clubId/members', authMiddleware, ClubController.listMembers);
 
+router.post('/:clubId/subscriptions', authMiddleware, ClubController.addSubscription);
+router.get('/:clubId/subscriptions', authMiddleware, ClubController.listSubscriptions);
+
 export default router;

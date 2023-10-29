@@ -1,17 +1,17 @@
-import MemberModel from '../../models/member/member.model';
+import SubscriptionModel from '../../models/subscription/subscription.model';
 import ClubLogic from '../club';
 
 /**
- * List all members on specific club
+ * List all subscriptions by club
  * @param {string} clubId - Club id
  * @param {string} userId - req.userId (from token) must be the club admin
- * @returns {Member[]} List of members
+ * @returns {Subscription[]} List of subscriptions
  */
 async function listByClub({ clubId, userId }) {
   await ClubLogic.checkIfUserIsAdmin({ clubId, userId });
 
-  const members = await MemberModel.find({ clubId });
-  return members;
+  const subscriptions = await SubscriptionModel.find({ clubId });
+  return subscriptions;
 }
 
 export default listByClub;

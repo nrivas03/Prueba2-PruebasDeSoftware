@@ -1,21 +1,8 @@
 import HTTPError from '../../errors/http.error';
 import memberErrors from '../../errors/member.errors';
-import ClubModel from '../../models/club/club.model';
 import MemberModel from '../../models/member/member.model';
-import checkIfUserIsAdmin from '../club/check-is-admin';
-
-/**
- * Check if the club exists in Club collection
- * @param {string} clubId - Candidate club id
- * @throws {HTTPError} 404 error if the club doesnt exists
- */
-async function checkClubExists(clubId) {
-  const club = await ClubModel.findById(clubId);
-
-  if (!club) {
-    throw new HTTPError({ ...memberErrors.clubNotFound, code: 404 });
-  }
-}
+import ClubLogic from '../club';
+import checkClubExists from '../../utils/check-club-exists.util';
 
 /**
  * Create member
@@ -31,8 +18,11 @@ async function checkClubExists(clubId) {
 async function create(args) {
   const { clubId, userId } = args;
 
-  await checkClubExists(clubId);
-  await checkIfUserIsAdmin({ clubId, userId });
+  await checkClubExists({
+    clubId,
+    errorObject: new HTTPError({ ...memberErrors.clubNotFound, code: 404 }),
+  });
+  await ClubLogic.checkIfUserIsAdmin({ clubId, userId });
 
   const member = await MemberModel.create(args);
   return member;
