@@ -7,7 +7,7 @@ With this API you can manage users, clubs and members for your team (like sport 
 - Login ✅
 - Create club ✅
 - Add and list members to the specific club ✅
-- Create a custom subscription for your club ⛔️
+- Create a custom subscription for your club ✅
 - Send automatic reminder notification to yours members (renew subscription) ⛔️
 - Extract data (last payment, users with debt) ⛔️
 

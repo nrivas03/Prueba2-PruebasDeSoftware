@@ -22,6 +22,7 @@ let mongoInstance;
  */
 async function connect() {
   if (!mongoInstance) {
+    console.log(mongo.mongo_uri);
     return mongoose
       .connect(mongo.mongo_uri)
       .then(async (mongo) => {
