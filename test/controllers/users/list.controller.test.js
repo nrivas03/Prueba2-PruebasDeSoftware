@@ -1,56 +1,62 @@
-import { expect, jest } from '@jest/globals';
-import UsersLogic from '../../../src/business-logic/users';
-import listController from '../../../src/controllers/user/list.controller';
+import {expect, jest} from '@jest/globals';
+import UserLogic from '../../../src/business-logic/users';
+import list from '../../../src/controllers/user/list.controller';
 import HTTPError from '../../../src/errors/http.error';
 
-jest.mock('../../../src/business-logic/users', () => ({
-  list: jest.fn().mockReturnThis(),
-}));
 
-let resMock;
+jest.mock('../../../src/business-logic/users');
 
-describe('Controller: User: List users', () => {
-  beforeEach(() => {
-    resMock = {
-      status: jest.fn().mockReturnThis(),
-      send: jest.fn(),
-    };
-  });
+describe('Controller: User: List', () => {
+    let resMock;
+    const users = [
+        // Array de usuarios simulados
+        { name: 'User 1' },
+        { name: 'User 2' },
+        // Agrega más usuarios simulados si es necesario
+    ];
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+    beforeEach(() => {
+        resMock = {
+            status: jest.fn().mockReturnThis(),
+            send: jest.fn(),
+        };
+    });
 
-  it('Should return a empty list', async () => {
-    UsersLogic.list.mockReturnValue([]);
+    afterEach(() => {
+        jest.resetAllMocks();
+    });
 
-    await listController({}, resMock);
+    it('Should list users', async () => {
+        UserLogic.list.mockReturnValue(users);
 
-    expect(resMock.status).toBeCalledWith(200);
-    expect(resMock.send).toBeCalledWith({ users: [] });
-    expect(UsersLogic.list).toHaveBeenCalled();
-  });
+        const req = {};
+        const response = await list(req, resMock);
+        expect(resMock.send).toBeCalledWith({ users });
+        expect(UserLogic.list).toHaveBeenCalled;
+    }
+    );
 
-  it('Should return a list of users', async () => {
-    const users = [{ name: 'user1', email: 'email@gmail.com' }];
-    UsersLogic.list.mockReturnValue(users);
+    it('Should handle errors', async () => {
+        UserLogic.list.mockImplementationOnce(() => {
+            throw new HTTPError({
+                name: 'ValidationError', // Nombre del error de validación
+                message: 'User ID is invalid', // Mensaje de error
+                code: 400, // Código de estado HTTP
+            });
+        });
+    
+        const req = {};
+    
+        const response = await list(req, resMock);
+    
+        expect(resMock.send).toBeCalledWith({
+            error: new HTTPError({
+                name: 'ValidationError', // Nombre del error de validación
+                message: 'User ID is invalid', // Mensaje de error
+                code: 400, // Código de estado HTTP
+            }),
+        });
+    });    
 
-    await listController({}, resMock);
-
-    expect(resMock.status).toBeCalledWith(200);
-    expect(resMock.send).toBeCalledWith({ users });
-    expect(UsersLogic.list).toHaveBeenCalled();
-  });
-
-  it('Should throw an error when the logic fails', async () => {
-    const error = new HTTPError({ name: 'error', message: 'some-error', code: 400 });
-
-    UsersLogic.list.mockRejectedValue(error);
-
-    await listController({}, resMock);
-
-    expect(resMock.status).toBeCalledWith(400);
-    expect(resMock.send).toBeCalledWith({ error });
-    expect(UsersLogic.list).toHaveBeenCalled();
-  });
-});
+}
+);

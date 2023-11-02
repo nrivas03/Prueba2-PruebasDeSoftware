@@ -1,14 +1,14 @@
 import { expect, jest } from '@jest/globals';
 import create from '../../../src/business-logic/member/create';
+import ClubModel from '../../../src/models/club/club.model';
 import MemberModel from '../../../src/models/member/member.model';
 import checkIfUserIsAdmin from '../../../src/business-logic/club/check-is-admin';
 import memberErrors from '../../../src/errors/member.errors';
 import HTTPError from '../../../src/errors/http.error';
-import checkClubExists from '../../../src/utils/check-club-exists.util';
 
 jest.mock('../../../src/business-logic/club/check-is-admin');
+jest.mock('../../../src/models/club/club.model');
 jest.mock('../../../src/models/member/member.model');
-jest.mock('../../../src/utils/check-club-exists.util');
 
 describe('Business logic: Member: Create', () => {
   afterEach(async () => {
@@ -16,9 +16,7 @@ describe('Business logic: Member: Create', () => {
   });
 
   it('Should throws an error when the club doesnt exists', async () => {
-    checkClubExists.mockRejectedValue(
-      new HTTPError({ ...memberErrors.clubNotFound, code: 404 }),
-    );
+    ClubModel.findById.mockReturnValue(null);
     try {
       await create({ clubId: 'asd1' });
     } catch (error) {
@@ -30,20 +28,20 @@ describe('Business logic: Member: Create', () => {
   });
 
   it('Should throws an error when the user is not the admin', async () => {
-    checkClubExists.mockReturnValue({});
+    ClubModel.findById.mockReturnValue({});
     checkIfUserIsAdmin.mockRejectedValue(new Error('user-is-not-the-admin-error'));
     try {
       await create({ clubId: 'asd1', userId: 'user-id' });
       throw new Error('other-error');
     } catch (error) {
       expect(error.message).toEqual('user-is-not-the-admin-error');
-      expect(checkClubExists).toBeCalled();
+      expect(ClubModel.findById).toBeCalledWith('asd1');
       expect(checkIfUserIsAdmin).toBeCalledWith({ clubId: 'asd1', userId: 'user-id' });
     }
   });
 
   it('Should throws an error when the user is not the admin', async () => {
-    checkClubExists.mockReturnValue({});
+    ClubModel.findById.mockReturnValue({});
     checkIfUserIsAdmin.mockReturnValue({});
     MemberModel.create.mockReturnValue({ name: 'miembro1' });
 
@@ -53,7 +51,7 @@ describe('Business logic: Member: Create', () => {
 
     expect(result).not.toBeNull();
     expect(result.name).toEqual('miembro1');
-    expect(checkClubExists).toBeCalled();
+    expect(ClubModel.findById).toBeCalledWith('asd1');
     expect(checkIfUserIsAdmin).toBeCalledWith(clubMock);
     expect(MemberModel.create).toBeCalledWith(clubMock);
   });
