@@ -9,10 +9,8 @@ jest.mock('../../../src/business-logic/club')
 describe('Controller: Club: List', ()=>{
     let resMock;
     const clubs = [
-        // Array de clubes simulados
         { name: 'Club 1' },
         { name: 'Club 2' },
-        // Agrega más clubes simulados si es necesario
     ];
 
     beforeEach(() => {

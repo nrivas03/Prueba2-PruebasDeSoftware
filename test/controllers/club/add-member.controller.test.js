@@ -19,9 +19,7 @@ describe('Controller: Club: Add member', () => {
         nickname: 'member-nickname',
     };
 
-    const club = {
-        // Puedes agregar propiedades del club aquí si es necesario.
-    };
+    const club = { };
 
     beforeEach(() => {
         resMock = {
@@ -39,8 +37,8 @@ describe('Controller: Club: Add member', () => {
 
         await addMember({
             body: member,
-            params: { clubId: '1' }, // Simulación de parámetros
-            userId: 'user123', // Simulación de userId
+            params: { clubId: '1' }, 
+            userId: 'user123', 
         }, resMock);
 
         expect(resMock.status).toBeCalledWith(201); 
@@ -51,7 +49,6 @@ describe('Controller: Club: Add member', () => {
     it('Should throw an error when name is not defined', async () => {
         await addMember({ body: {} }, resMock);
 
-        //expect(resMock.status).toBeCalledWith(400); 
         expect(resMock.send).toBeCalledWith({
             error: new HTTPError({
                 name: clubErrors.validation.name,
