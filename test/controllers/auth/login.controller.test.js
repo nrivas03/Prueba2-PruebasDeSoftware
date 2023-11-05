@@ -8,7 +8,6 @@ import { loginValidation } from '../../../src/validations/auth.validations';
 
 jest.mock('../../../src/business-logic/auth');
 describe('login', () => {
-  // Supongamos que tienes una función mock de Express para req y res
 
   let req;
   let res;
@@ -16,7 +15,7 @@ describe('login', () => {
   beforeEach(() => {
     req = {
       body: {
-        email: 'example@example.com', // Debe ser una dirección de correo electrónico válida
+        email: 'example@example.com', 
         password: 'mypassword123',  
       },
     };
@@ -27,7 +26,7 @@ describe('login', () => {
   });
 
   it('should return a 200 status and a token on successful login', async () => {
-    // Mockear la función AuthLogic.login para devolver un token simulado
+
     AuthLogic.login = jest.fn().mockResolvedValue('mocked_token');
 
     await login(req, res);
@@ -38,23 +37,21 @@ describe('login', () => {
   });
 
   it('should return an error response on failed login', async () => {
-    // Mockear la función AuthLogic.login para lanzar un error simulado
     AuthLogic.login = jest.fn().mockRejectedValue(new Error('Mocked login error'));
 
     await login(req, res);
 
-    // Asegurarse de que se llama a la función de manejo de errores (returnErrorResponse)
-    expect(res.status).toHaveBeenCalled(); // Asegúrate de verificar el código de estado específico
-    expect(res.send).toHaveBeenCalled();   // Asegúrate de verificar el mensaje de error específico
+
+    expect(res.status).toHaveBeenCalled();
+    expect(res.send).toHaveBeenCalled();  
   });
 
   it('should validate the request body', async () => {
-    // Mockear la función de validación para que siempre pase
+  
     loginValidation.validateAsync = jest.fn().mockResolvedValue();
 
     await login(req, res);
 
-    // Asegurarse de que se llame a la función de validación con el cuerpo de la solicitud
     expect(loginValidation.validateAsync).toHaveBeenCalledWith(req.body);
   });
 });

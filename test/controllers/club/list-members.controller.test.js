@@ -11,10 +11,8 @@ jest.mock('../../../src/business-logic/club');
 describe('Controller: Club: List members', () => {
     let resMock;
     const members = [
-        // Array de miembros simulados
         { name: 'Member 1' },
         { name: 'Member 2' },
-        // Agrega más miembros simulados si es necesario
     ];
 
     beforeEach(() => {
@@ -29,23 +27,22 @@ describe('Controller: Club: List members', () => {
     });
 
     it('Should list members', async () => {
-        // Mock el comportamiento de MemberLogic.listByClub
         MemberLogic.listByClub.mockReturnValue(members);
 
         const req = {
-            userId: 'user123', // Simulación de userId
-            params: { clubId: '1' }, // Simulación de parámetros
+            userId: 'user123', 
+            params: { clubId: '1' }, 
         };
 
         await listMembers(req, resMock);
 
         expect(resMock.send).toBeCalledWith({ members });
-        expect(MemberLogic.listByClub).toHaveBeenCalled(); // Asegúrate de que MemberLogic.listByClub se llamó en la función listMembers.
+        expect(MemberLogic.listByClub).toHaveBeenCalled();
     });
     it('Should throw an error when clubId is not defined', async () => {
         const req = {
-            userId: 'user123', // Simulación de userId
-            params: {}, // Simulación de parámetros
+            userId: 'user123',
+            params: {}, 
         };
 
         await listMembers(req, resMock);
@@ -58,7 +55,7 @@ describe('Controller: Club: List members', () => {
             }),
         });
         expect(resMock.status).toBeCalledWith(400);
-        expect(MemberLogic.listByClub).not.toHaveBeenCalled(); // Asegúrate de que MemberLogic.listByClub no se llamó en la función listMembers.
+        expect(MemberLogic.listByClub).not.toHaveBeenCalled();
     }
     );
 });

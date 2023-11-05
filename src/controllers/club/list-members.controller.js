@@ -13,6 +13,7 @@ async function listMembers(req, res) {
   try {
     const { userId, params } = req;
     const { clubId } = params;
+    //Se agregan validaciones ya que no pasaba por el test de error, nunca llegaba al catch
     if (!clubId) {
       throw new HTTPError({
           name: clubErrors.validation.name,
@@ -24,7 +25,6 @@ async function listMembers(req, res) {
 
     return res.send({ members });
   } catch (error) {
-    console.log('==============================================')
     return returnErrorResponse({ error, res });
   }
 }

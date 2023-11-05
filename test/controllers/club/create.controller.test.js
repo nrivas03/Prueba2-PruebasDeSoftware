@@ -1,6 +1,5 @@
 import { expect, jest } from '@jest/globals';
 import ClubLogic from '../../../src/business-logic/club';
-//import HTTPError from '../../../src/errors/http.error';
 import clubErrors from '../../../src/errors/club.errors';
 import createController from '../../../src/controllers/club/create.controller';
 import HTTPError from '../../../src/errors/http.error';

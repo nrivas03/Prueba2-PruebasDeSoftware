@@ -9,10 +9,8 @@ jest.mock('../../../src/business-logic/users');
 describe('Controller: User: List', () => {
     let resMock;
     const users = [
-        // Array de usuarios simulados
         { name: 'User 1' },
         { name: 'User 2' },
-        // Agrega más usuarios simulados si es necesario
     ];
 
     beforeEach(() => {
@@ -39,9 +37,9 @@ describe('Controller: User: List', () => {
     it('Should handle errors', async () => {
         UserLogic.list.mockImplementationOnce(() => {
             throw new HTTPError({
-                name: 'ValidationError', // Nombre del error de validación
-                message: 'User ID is invalid', // Mensaje de error
-                code: 400, // Código de estado HTTP
+                name: 'ValidationError', 
+                message: 'User ID is invalid', 
+                code: 400, 
             });
         });
     
@@ -51,9 +49,9 @@ describe('Controller: User: List', () => {
     
         expect(resMock.send).toBeCalledWith({
             error: new HTTPError({
-                name: 'ValidationError', // Nombre del error de validación
-                message: 'User ID is invalid', // Mensaje de error
-                code: 400, // Código de estado HTTP
+                name: 'ValidationError', 
+                message: 'User ID is invalid', 
+                code: 400, 
             }),
         });
     });    
