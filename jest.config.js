@@ -6,7 +6,7 @@ module.exports = {
   coveragePathIgnorePatterns: ['./src/routers/', './src/app.js', './src/configs/'],
   coverageThreshold: {
     global: {
-      lines: 90,
+      lines: 100,
     },
   },
   setupFilesAfterEnv: ['./test/setup.js'],
